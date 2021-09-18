@@ -30,14 +30,14 @@ public class BemTeVi extends ApplicationAdapter {
         obstaculoCima = new Texture("canocima.png");
 		imagemFundo = new Texture("imagemfundo.png");
 
-        posicaoX = (float) Gdx.graphics.getWidth();
+        posicaoX = Gdx.graphics.getWidth();
         posicaoY = Gdx.graphics.getHeight() / 2;
         altura = Gdx.graphics.getHeight() / 2;
         vao = 300;
 
         passaros = new Texture[6];
         for (int i = 0; i < passaros.length; i++) {
-            passaros[1] = new Texture("passaro" + String.valueOf(i + 1) + ".png");
+            passaros[i] = new Texture("passaro" + String.valueOf(i + 1) + ".png");
         }
 
 	}
@@ -58,14 +58,19 @@ public class BemTeVi extends ApplicationAdapter {
 		    posicaoY -= velocidade * Gdx.graphics.getDeltaTime() * 30;
         }
 
+		if(Gdx.input.justTouched()){
+			velocidade = -30;
+
+		}
+
 		contador += Gdx.graphics.getDeltaTime() * 10;
 		if (contador > 6) {contador = 0;}
 
         batch.draw(imagemFundo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.draw(obstaculoBaixo, posicaoX, altura - vao / 2 - obstaculoBaixo.getHeight());
         batch.draw(obstaculoCima, posicaoX, altura + vao / 2 );
-        batch.draw(passaros[((int) contador)], 50, posicaoY);
         batch.draw(obstaculoBaixo, posicaoX, 0);
+		batch.draw(passaros[(int) contador], 50, posicaoY);
 		batch.end();
 	}
 	
