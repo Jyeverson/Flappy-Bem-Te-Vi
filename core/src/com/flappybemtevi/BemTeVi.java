@@ -9,15 +9,19 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class BemTeVi extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture obstaculoBaixo;
-
-
+	Texture obstaculoCima;
+	Texture passaro;
+	Texture imagemFundo;
 	Float posicaoX = 0f;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		obstaculoBaixo = new Texture("canobaixo.png");
-		posicaoX = (float) Gdx.graphics.getWidth();
+        obstaculoCima = new Texture("canocima.png");
+		imagemFundo = new Texture("imagemfundo.png");
+        passaro = new Texture("passao1.png");
+        posicaoX = (float) Gdx.graphics.getWidth();
 	}
 
 	@Override
@@ -30,8 +34,11 @@ public class BemTeVi extends ApplicationAdapter {
 		if(posicaoX <- obstaculoBaixo.getWidth()) {
 			posicaoX = (float) Gdx.graphics.getWidth();
 		}
-
+        batch.draw(imagemFundo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.draw(obstaculoBaixo, posicaoX, 0);
+        batch.draw(obstaculoCima, posicaoX, obstaculoBaixo.getHeight());
+        batch.draw(passaro, 50, Gdx.graphics.getHeight() / 2);
+        batch.draw(obstaculoBaixo, posicaoX, 0);
 		batch.end();
 	}
 	
