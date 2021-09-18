@@ -10,25 +10,30 @@ public class BemTeVi extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture obstaculoBaixo;
 	Texture obstaculoCima;
-	Texture passaro;
+	Texture[] passaros;
 	Texture imagemFundo;
 
 
 	float posicaoX = 0;
     float altura;
     float vao;
-
+    float contador = 0.0f;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		obstaculoBaixo = new Texture("canobaixo.png");
         obstaculoCima = new Texture("canocima.png");
 		imagemFundo = new Texture("imagemfundo.png");
-        passaro = new Texture("passao1.png");
 
         posicaoX = (float) Gdx.graphics.getWidth();
         altura = Gdx.graphics.getHeight() / 2;
         vao = 300;
+
+        passaros = new Texture[6];
+        for (int i = 0; i < passaros.length; i++) {
+            passaros[1] = new Texture("passaro" + String.valueOf(i + 1) + ".png");
+        }
+
 	}
 
 	@Override
@@ -41,10 +46,14 @@ public class BemTeVi extends ApplicationAdapter {
 		if(posicaoX <- obstaculoBaixo.getWidth()) {
 			posicaoX = (float) Gdx.graphics.getWidth();
 		}
+
+		contador += Gdx.graphics.getDeltaTime() * 10;
+		if (contador > 6) {contador = 0;}
+
         batch.draw(imagemFundo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.draw(obstaculoBaixo, posicaoX, altura - vao / 2 - obstaculoBaixo.getHeight());
         batch.draw(obstaculoCima, posicaoX, altura + vao / 2 );
-        batch.draw(passaro, 50, Gdx.graphics.getHeight() / 2);
+        batch.draw(passaros[((int) contador)], 50, Gdx.graphics.getHeight() / 2);
         batch.draw(obstaculoBaixo, posicaoX, 0);
 		batch.end();
 	}
