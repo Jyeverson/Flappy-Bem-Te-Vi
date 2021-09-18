@@ -46,7 +46,6 @@ public class BemTeVi extends ApplicationAdapter {
     Rectangle retanguloCima;
     Rectangle retanguloBaixo;
 
-    Sound somVoa;
     Sound somHit;
     Sound somScore;
 
@@ -66,7 +65,7 @@ public class BemTeVi extends ApplicationAdapter {
         altura = Gdx.graphics.getHeight()/2;
         vao = 300;
 
-        passaros = new Texture[6];
+        passaros = new Texture[2];
         for(int i = 0; i<passaros.length; i++) {
             passaros[i] = new Texture("passaro"+String.valueOf(i+1)+".png");
         }
@@ -83,7 +82,6 @@ public class BemTeVi extends ApplicationAdapter {
         textoGameOver.setColor(Color.GREEN);
         textoGameOver.getData().setScale(2);
 
-        somVoa = Gdx.audio.newSound(Gdx.files.internal("somVoa.mp3"));
         somHit = Gdx.audio.newSound(Gdx.files.internal("somHit.mp3"));
         somScore = Gdx.audio.newSound(Gdx.files.internal("somScore.mp3"));
 
@@ -98,7 +96,6 @@ public class BemTeVi extends ApplicationAdapter {
             if (Gdx.input.justTouched()) {
                 velocidade = -30;
                 estadoJogo = 1;
-                somVoa.play();
             }
         }else if(estadoJogo==1){
             posicaoX-=Gdx.graphics.getDeltaTime()*500;
@@ -113,7 +110,6 @@ public class BemTeVi extends ApplicationAdapter {
 
             if (Gdx.input.justTouched()) {
                 velocidade = -30;
-                somVoa.play();
             }
 
             if (posicaoY > 0 || velocidade < 0)
@@ -146,7 +142,7 @@ public class BemTeVi extends ApplicationAdapter {
         }
 
         contador += Gdx.graphics.getDeltaTime()*10;
-        if(contador>6){contador=0;}
+        if(contador>2){contador=0;}
 
         batch.begin();
         batch.draw(imagemFundo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
