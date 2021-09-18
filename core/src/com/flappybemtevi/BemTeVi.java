@@ -18,31 +18,31 @@ public class BemTeVi extends ApplicationAdapter {
     SpriteBatch batch;
     ShapeRenderer shapeRenderer;
 
-    Texture lowObstacacle;
-    Texture upObstacle;
-    Texture[] birds;
-    Texture backgroundImage;
+    Texture obstaculoBaixo;
+    Texture obstaculoCima;
+    Texture[] passaros;
+    Texture imagemFundo;
 
-    float positionX = 0;
-    float birdX = 0;
-    float positionY;
-    float speed;
-    float height;
-    float space;
-    float counter = 0.0f;
-    float gravity = 2;
-    int spots = 0;
-    boolean scoredPoint;
-    int gameState = 0;
+    float posicaoX = 0;
+    float posicaoXpassaro = 0;
+    float posicaoY;
+    float velocidade;
+    float altura;
+    float vao;
+    float contador = 0.0f;
+    float gravidade = 2;
+    int pontos = 0;
+    boolean marcouPonto;
+    int estadoJogo = 0;
 
-    Random heightRandom;
+    Random alturaRandom;
 
-    BitmapFont txtPunctuation;
-    BitmapFont txtGameOver;
+    BitmapFont textoPontuacao;
+    BitmapFont textoGameOver;
 
-    Circle birdCircle;
-    Rectangle upRectangle;
-    Rectangle lowRectangle;
+    Circle circuloPassaro;
+    Rectangle retanguloCima;
+    Rectangle retanguloBaixo;
 
     Sound somHit;
     Sound somScore;
@@ -52,33 +52,34 @@ public class BemTeVi extends ApplicationAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        heightRandom = new Random();
+        alturaRandom = new Random();
 
-        lowObstacacle = new Texture("canobaixo.png");
-        upObstacle = new Texture("canocima.png");
-        backgroundImage = new Texture("imagemfundo.png");
+        obstaculoBaixo = new Texture("canobaixo.png");
+        obstaculoCima = new Texture("canocima.png");
+        imagemFundo = new Texture("imagemfundo.png");
 
-        positionX = Gdx.graphics.getWidth();
-        positionY = Gdx.graphics.getHeight()/2;
-        height = Gdx.graphics.getHeight()/2;
-        space = 300;
 
-        birds = new Texture[2];
-        for(int i = 0; i < birds.length; i++) {
-            birds[i] = new Texture("passaro"+String.valueOf(i+1)+".png");
+        posicaoX = Gdx.graphics.getWidth();
+        posicaoY = Gdx.graphics.getHeight()/2;
+        altura = Gdx.graphics.getHeight()/2;
+        vao = 300;
+
+        passaros = new Texture[2];
+        for(int i = 0; i<passaros.length; i++) {
+            passaros[i] = new Texture("passaro"+String.valueOf(i+1)+".png");
         }
 
-        birdCircle = new Circle();
-        lowRectangle = new Rectangle();
-        upRectangle = new Rectangle();
+        circuloPassaro = new Circle();
+        retanguloBaixo = new Rectangle();
+        retanguloCima = new Rectangle();
 
-        txtPunctuation = new BitmapFont();
-        txtPunctuation.setColor(Color.WHITE);
-        txtPunctuation.getData().setScale(10);
+        textoPontuacao = new BitmapFont();
+        textoPontuacao.setColor(Color.WHITE);
+        textoPontuacao.getData().setScale(10);
 
-        txtGameOver = new BitmapFont();
-        txtGameOver.setColor(Color.GREEN);
-        txtGameOver.getData().setScale(2);
+        textoGameOver = new BitmapFont();
+        textoGameOver.setColor(Color.GREEN);
+        textoGameOver.getData().setScale(2);
 
         somHit = Gdx.audio.newSound(Gdx.files.internal("somHit.mp3"));
         somScore = Gdx.audio.newSound(Gdx.files.internal("somScore.mp3"));
@@ -90,68 +91,68 @@ public class BemTeVi extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if(gameState == 0) {
+        if(estadoJogo==0) {
             if (Gdx.input.justTouched()) {
-                speed = - 30;
-                gameState = 1;
+                velocidade = -30;
+                estadoJogo = 1;
             }
-        }else if(gameState==1){
-            positionX-=Gdx.graphics.getDeltaTime()*500;
+        }else if(estadoJogo==1){
+            posicaoX-=Gdx.graphics.getDeltaTime()*500;
 
-            if(positionX < - lowObstacacle.getWidth()){
-                positionX = Gdx.graphics.getWidth();
+            if(posicaoX < -obstaculoBaixo.getWidth()){
+                posicaoX = Gdx.graphics.getWidth();
 
-                height = Gdx.graphics.getHeight() / 2;
-                height -= (heightRandom.nextFloat() - 0.5f) * 150;
-                scoredPoint = false;
+                altura = Gdx.graphics.getHeight()/2;
+                altura -= (alturaRandom.nextFloat() - 0.5f) * 150;
+                marcouPonto=false;
             }
 
             if (Gdx.input.justTouched()) {
-                speed = - 30;
+                velocidade = -30;
             }
 
-            if (positionY > 0 || speed < 0)
+            if (posicaoY > 0 || velocidade < 0)
             {
-                speed =  speed + gravity;
-                positionY -= speed * Gdx.graphics.getDeltaTime() * 30;
+                velocidade =  velocidade + gravidade;
+                posicaoY -= velocidade*Gdx.graphics.getDeltaTime()*30;
 
             }
 
-        }else if(gameState == 2){
-            birdX -= Gdx.graphics.getDeltaTime() * 500;
+        }else if(estadoJogo==2){
+            posicaoXpassaro -= Gdx.graphics.getDeltaTime()*500;
             if (Gdx.input.justTouched()) {
-                gameState = 0;
-                spots = 0;
-                speed = 0;
-                birdX = 0;
-                scoredPoint = false;
-                positionY = Gdx.graphics.getWidth();
-                positionY = Gdx.graphics.getHeight() / 2 - birds[0].getHeight() / 2;
+                estadoJogo = 0;
+                pontos = 0;
+                velocidade = 0;
+                posicaoXpassaro = 0;
+                marcouPonto = false;
+                posicaoX = Gdx.graphics.getWidth();
+                posicaoY = Gdx.graphics.getHeight() / 2 - passaros[0].getHeight() / 2;
             }
 
         }
 
-        if (positionX < 50) {
-            if(!scoredPoint){
-                spots++;
-                scoredPoint = true;
+        if (posicaoX < 50) {
+            if(!marcouPonto){
+                pontos++;
+                marcouPonto=true;
                 somScore.play();
             }
         }
 
-        counter += Gdx.graphics.getDeltaTime()*10;
-        if(counter>2){counter=0;}
+        contador += Gdx.graphics.getDeltaTime()*10;
+        if(contador>2){contador=0;}
 
         batch.begin();
-        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(lowObstacacle, positionX, height - space / 2 - lowObstacacle.getHeight());
-        batch.draw(upObstacle, positionX, height + space / 2);
-        batch.draw(birds[((int) counter)], 50 + birdX, positionY);
+        batch.draw(imagemFundo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(obstaculoBaixo, posicaoX, altura - vao / 2 - obstaculoBaixo.getHeight());
+        batch.draw(obstaculoCima, posicaoX, altura + vao / 2);
+        batch.draw(passaros[((int) contador)], 50+posicaoXpassaro, posicaoY);
 
-        txtPunctuation.draw(batch, String.valueOf(spots), Gdx.graphics.getWidth() / 2-20, Gdx.graphics.getHeight() - 110);
+        textoPontuacao.draw(batch, String.valueOf(pontos), Gdx.graphics.getWidth() / 2-20, Gdx.graphics.getHeight() - 110);
 
-        if (gameState == 2){
-            txtGameOver.draw(batch, "Toque para reiniciar!", Gdx.graphics.getWidth() / 2 - 110, Gdx.graphics.getHeight()/2);
+        if (estadoJogo==2){
+            textoGameOver.draw(batch, "Toque para reiniciar!", Gdx.graphics.getWidth()/2 - 110, Gdx.graphics.getHeight()/2);
         }
 
         batch.end();
@@ -159,26 +160,23 @@ public class BemTeVi extends ApplicationAdapter {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
 
-        upRectangle = new Rectangle(positionX, height + space / 2, upObstacle.getWidth(), upObstacle.getHeight());
-        lowRectangle = new Rectangle(positionX, height - lowObstacacle.getHeight() - space / 2, lowObstacacle.getWidth(), lowObstacacle.getHeight());
+        retanguloCima = new Rectangle(posicaoX, altura + vao/2, obstaculoCima.getWidth(), obstaculoCima.getHeight());
+        retanguloBaixo = new Rectangle(posicaoX, altura - obstaculoBaixo.getHeight() - vao/2, obstaculoBaixo.getWidth(), obstaculoBaixo.getHeight());
 
-        birdCircle.set(50 + birdX + birds[0].getWidth() / 2, positionY + birds[0].getWidth() / 2, birds[0].getHeight() / 2);
+        circuloPassaro.set(50 + posicaoXpassaro + passaros[0].getWidth() / 2, posicaoY + passaros[0].getWidth() / 2, passaros[0].getHeight() / 2);
 
-        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
-        shapeRenderer.rect(positionX, height + space / 2, upObstacle.getWidth(), upObstacle.getHeight());
-        shapeRenderer.rect(positionX, height - lowObstacacle.getHeight() - space / 2, lowObstacacle.getWidth(), lowObstacacle.getHeight());
+//        shapeRenderer.circle(circuloPassaro.x, circuloPassaro.y, circuloPassaro.radius);
+//        shapeRenderer.rect(posicaoX, altura + vao/2, obstaculoCima.getWidth(), obstaculoCima.getHeight());
+//        shapeRenderer.rect(posicaoX, altura - obstaculoBaixo.getHeight() - vao/2, obstaculoBaixo.getWidth(), obstaculoBaixo.getHeight());
 
-        if (Intersector.overlaps(birdCircle, upRectangle) || Intersector.overlaps(birdCircle, lowRectangle)) {
+        if (Intersector.overlaps(circuloPassaro, retanguloCima) || Intersector.overlaps(circuloPassaro, retanguloBaixo)) {
             Gdx.app.log("meuLog", "Colidiu!");
 
-            if (gameState == 1) {
-                somScore.stop();
+            if (estadoJogo==1) {
                 somHit.play();
-                gameState = 2;
+                estadoJogo=2;
             }
         }
-
         shapeRenderer.end();
-
     }
 }
