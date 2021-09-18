@@ -12,7 +12,11 @@ public class BemTeVi extends ApplicationAdapter {
 	Texture obstaculoCima;
 	Texture passaro;
 	Texture imagemFundo;
-	Float posicaoX = 0f;
+
+
+	float posicaoX = 0;
+    float altura;
+    float vao;
 
 	@Override
 	public void create () {
@@ -21,7 +25,10 @@ public class BemTeVi extends ApplicationAdapter {
         obstaculoCima = new Texture("canocima.png");
 		imagemFundo = new Texture("imagemfundo.png");
         passaro = new Texture("passao1.png");
+
         posicaoX = (float) Gdx.graphics.getWidth();
+        altura = Gdx.graphics.getHeight() / 2;
+        vao = 300;
 	}
 
 	@Override
@@ -35,8 +42,8 @@ public class BemTeVi extends ApplicationAdapter {
 			posicaoX = (float) Gdx.graphics.getWidth();
 		}
         batch.draw(imagemFundo, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.draw(obstaculoBaixo, posicaoX, 0);
-        batch.draw(obstaculoCima, posicaoX, obstaculoBaixo.getHeight());
+		batch.draw(obstaculoBaixo, posicaoX, altura - vao / 2 - obstaculoBaixo.getHeight());
+        batch.draw(obstaculoCima, posicaoX, altura + vao / 2 );
         batch.draw(passaro, 50, Gdx.graphics.getHeight() / 2);
         batch.draw(obstaculoBaixo, posicaoX, 0);
 		batch.end();
