@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import java.util.Random;
 
 public class BemTeVi extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -12,7 +13,6 @@ public class BemTeVi extends ApplicationAdapter {
 	Texture obstaculoCima;
 	Texture[] passaros;
 	Texture imagemFundo;
-
 
 	float posicaoX = 0;
     float posicaoY;
@@ -22,10 +22,14 @@ public class BemTeVi extends ApplicationAdapter {
     float contador = 0.0f;
     float gravidade = 2;
 
+    Random alturaRandom;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
+		alturaRandom = new Random();
+
 		obstaculoBaixo = new Texture("canobaixo.png");
         obstaculoCima = new Texture("canocima.png");
 		imagemFundo = new Texture("imagemfundo.png");
@@ -51,6 +55,9 @@ public class BemTeVi extends ApplicationAdapter {
 
 		if(posicaoX <- obstaculoBaixo.getWidth()) {
 			posicaoX = (float) Gdx.graphics.getWidth();
+
+			altura += (alturaRandom.nextFloat() - 0.5f) * 150;
+
 		}
 
 		if (posicaoY > 0 || velocidade < 0){
