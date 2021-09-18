@@ -173,6 +173,7 @@ public class BemTeVi extends ApplicationAdapter {
             Gdx.app.log("meuLog", "Colidiu!");
 
             if (estadoJogo==1) {
+                somScore.stop();
                 somHit.play();
                 estadoJogo=2;
             }
