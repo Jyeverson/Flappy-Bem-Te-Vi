@@ -54,8 +54,8 @@ public class BemTeVi extends ApplicationAdapter {
 
         alturaRandom = new Random();
 
-        obstaculoBaixo = new Texture("canobaixo.png");
-        obstaculoCima = new Texture("canocima.png");
+        obstaculoBaixo = new Texture("canobaixopvc.png");
+        obstaculoCima = new Texture("canocimapvc.png");
         imagemFundo = new Texture("imagemfundo.png");
 
 
